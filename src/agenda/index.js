@@ -82,7 +82,9 @@ export default class AgendaView extends Component {
     /** Set this true while waiting for new data from a refresh. */
     refreshing: PropTypes.bool,
     /** Display loading indicador. Default = false */
-    displayLoadingIndicator: PropTypes.bool
+    displayLoadingIndicator: PropTypes.bool,
+    /** Used to control the fillBounds prop in the CalendarList */
+    fillBounds: PropTypes.bool,
   };
 
   constructor(props) {
@@ -426,6 +428,7 @@ export default class AgendaView extends Component {
               disabledByDefault={this.props.disabledByDefault}
               displayLoadingIndicator={this.props.displayLoadingIndicator}
               showWeekNumbers={this.props.showWeekNumbers}
+              fillBounds={this.props.fillBounds}
             />
           </Animated.View>
           {knob}
