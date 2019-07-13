@@ -47,7 +47,9 @@ class CalendarList extends Component {
     /** Style for the List item (the calendar) */
     calendarStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number, PropTypes.array]),
     /** Whether to use static header that will not scroll with the list (horizontal only) */
-    staticHeader: PropTypes.bool
+    staticHeader: PropTypes.bool,
+    /** Decides whether a "flex: 1" style should be added to the component to fill the space available the CalendarList's parent */
+    fillBounds: PropTypes.bool
   }
 
   static defaultProps = {
@@ -284,14 +286,18 @@ class CalendarList extends Component {
     }
   }
 
+  getFillBoundsStyle() {
+    return this.props.fillBounds ? { flex: 1 } : undefined
+  }
+
   render() {
     return (
-      <View>
+      <View style={this.getFillBoundsStyle()}>
         <FlatList
           onLayout={this.onLayout}
           ref={(c) => this.listView = c}
           //scrollEventThrottle={1000}
-          style={[this.style.container, this.props.style]}
+          style={[this.style.container, this.getFillBoundsStyle(), this.props.style]}
           initialListSize={this.props.pastScrollRange + this.props.futureScrollRange + 1}
           data={this.state.rows}
           //snapToAlignment='start'
