@@ -375,6 +375,11 @@ export interface AgendaProps<TItem> {
   fillBounds?: boolean;
 
   /**
+   * Determines whether to use a pressable view that expands the CalendarList for the top calendar "knob"
+   */
+  expandOnPress?: boolean
+
+  /**
    *  Display loading indicator. Default = false
    */
   displayLoadingIndicator?: boolean;

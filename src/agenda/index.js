@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, View, Dimensions, Animated, ViewPropTypes} from 'react-native';
+import {Text, View, Dimensions, Animated, ViewPropTypes, TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
 import XDate from 'xdate';
 
@@ -85,6 +85,8 @@ export default class AgendaView extends Component {
     displayLoadingIndicator: PropTypes.bool,
     /** Used to control the fillBounds prop in the CalendarList */
     fillBounds: PropTypes.bool,
+    /** Determines whether to use a pressable view that expands the CalendarList for the top calendar "knob" */
+    expandOnPress: PropTypes.bool,
   };
 
   constructor(props) {
@@ -317,6 +319,14 @@ export default class AgendaView extends Component {
     }
   }
 
+  onPressKnob = () => {
+    if (this.props.expandOnPress) {
+      const maxY = this.initialScrollPadPosition();
+      this.onStartDrag();
+      this.onSnapAfterDrag({ nativeEvent: { contentOffset: { y: maxY }}});
+    }
+  }
+
   generateMarkings() {
     let markings = this.props.markedDates;
     
@@ -456,7 +466,11 @@ export default class AgendaView extends Component {
             {useNativeDriver: true},
           )}
         >
-          <View style={{height: agendaHeight + KNOB_HEIGHT}} onLayout={this.onScrollPadLayout}/>
+          {this.props.expandOnPress ? (
+            <TouchableOpacity style={{height: agendaHeight + KNOB_HEIGHT}} onLayout={this.onScrollPadLayout} onPress={this.onPressKnob}/>
+            ) : (
+            <View style={{height: agendaHeight + KNOB_HEIGHT}} onLayout={this.onScrollPadLayout}/>
+          )}
         </Animated.ScrollView>
       </View>
     );
