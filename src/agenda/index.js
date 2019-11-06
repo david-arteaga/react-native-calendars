@@ -87,6 +87,11 @@ export default class AgendaView extends Component {
     fillBounds: PropTypes.bool,
     /** Determines whether to use a pressable view that expands the CalendarList for the top calendar "knob" */
     expandOnPress: PropTypes.bool,
+    /**
+     * Determines is months will be loaded as soon as they become visible in the CalendarList. This will also make infinite scrolling
+     * work when the CalendarList is not expanded, since future months will be loaded as you are scrolling, because they come into view.
+     */
+    loadMonthAsSoonAsVisible: PropTypes.bool,
   };
 
   constructor(props) {
@@ -193,7 +198,13 @@ export default class AgendaView extends Component {
       clearTimeout(this.scrollTimeout);
       this.scrollTimeout = setTimeout(() => {
         if (this.props.loadItemsForMonth && this._isMounted) {
-          this.props.loadItemsForMonth(months[0]);
+          if (this.props.loadMonthAsSoonAsVisible) {
+            months.forEach(month => {
+              this.props.loadItemsForMonth(month);
+            });
+          } else {
+            this.props.loadItemsForMonth(months[0]);
+          }
         }
       }, 200);
     }

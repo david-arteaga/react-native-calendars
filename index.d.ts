@@ -380,6 +380,12 @@ export interface AgendaProps<TItem> {
   expandOnPress?: boolean
 
   /**
+   * Determines is months will be loaded as soon as they become visible in the CalendarList. This will also make infinite scrolling
+   * work when the CalendarList is not expanded, since future months will be loaded as you are scrolling, because they come into view.
+   */
+  loadMonthAsSoonAsVisible?: boolean
+
+  /**
    *  Display loading indicator. Default = false
    */
   displayLoadingIndicator?: boolean;
